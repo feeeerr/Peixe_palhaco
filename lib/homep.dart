@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:front_end/cadastroemp.dart';
+import 'package:front_end/cadastropes.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
               ),
               Container(
                 child: Text(
-                  'Nome do App',
+                  'Hora75',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 190),
                   child: Text(
-                    'Welcome to NOME DO APP',
+                    'Welcome to Hora75',
                     style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -55,6 +57,7 @@ class MyApp extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: ElevatedButton(
                   onPressed: () {
+                    Navigator.push(context,  MaterialPageRoute(builder: (context) => cadpes(),));
                     print('clicou');
                   },
                   child: Text('PESSOA'),
@@ -73,6 +76,7 @@ class MyApp extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 50.0),
                 child: ElevatedButton(
                   onPressed: () {
+                    Navigator.push(context,  MaterialPageRoute(builder: (context) => cademp(),));
                     print('clicou');
                   },
                   child: Text('ESTABELECIMENTO'),
