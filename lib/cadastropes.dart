@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:front_end/intro.dart';
 import 'package:front_end/entrarpes.dart';
+import 'package:front_end/princip.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -35,7 +37,6 @@ class cadpes extends StatefulWidget {
 
   @override
   State<cadpes> createState() => _cadpesState();
-  
 }
 
 class _cadpesState extends State<cadpes> {
@@ -43,7 +44,7 @@ class _cadpesState extends State<cadpes> {
   TextEditingController emailController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
 
-    @override
+  @override
   void dispose() {
     nomeController.dispose();
     emailController.dispose();
@@ -198,7 +199,11 @@ class _cadpesState extends State<cadpes> {
                           print('Nome: $nome');
                           print('Email: $email');
                           print('Senha: $senha');
-                         // sendSign(email, nome, senha);
+                          // sendSign(email, nome, senha);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => intro()));
                         },
                         child: Text(
                           'Sign up',
@@ -251,8 +256,8 @@ class _cadpesState extends State<cadpes> {
                               },
                               child: Icon(Icons.adb),
                               style: ButtonStyle(
-                                minimumSize:
-                                    MaterialStateProperty.all<Size>(Size(60, 60)),
+                                minimumSize: MaterialStateProperty.all<Size>(
+                                    Size(60, 60)),
                                 shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(100.0),
@@ -266,8 +271,8 @@ class _cadpesState extends State<cadpes> {
                               },
                               child: Icon(Icons.adb),
                               style: ButtonStyle(
-                                minimumSize:
-                                    MaterialStateProperty.all<Size>(Size(60, 60)),
+                                minimumSize: MaterialStateProperty.all<Size>(
+                                    Size(60, 60)),
                                 shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(100.0),
@@ -281,8 +286,8 @@ class _cadpesState extends State<cadpes> {
                               },
                               child: Icon(Icons.adb),
                               style: ButtonStyle(
-                                minimumSize:
-                                    MaterialStateProperty.all<Size>(Size(60, 60)),
+                                minimumSize: MaterialStateProperty.all<Size>(
+                                    Size(60, 60)),
                                 shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(100.0),
