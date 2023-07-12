@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class cademp extends StatefulWidget {
-  const cademp({super.key});
+class EmpSignUp extends StatefulWidget {
+  const EmpSignUp({super.key});
 
   @override
-  State<cademp> createState() => _cadempState();
+  State<EmpSignUp> createState() => _EmpSignUpState();
 }
 
-class _cadempState extends State<cademp> {
+class _EmpSignUpState extends State<EmpSignUp> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(

@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 
-class pesqui extends StatefulWidget {
-  const pesqui({super.key});
+//-------------------------------------------------------------------------------------------------------------- CLASS
+
+class Pesquisar extends StatefulWidget
+ {
+  const Pesquisar({super.key});
 
   @override
-  State<pesqui> createState() => _pesquiState();
+  State<Pesquisar> createState() => _PesquisarState();
 }
 
-class _pesquiState extends State<pesqui> {
+class _PesquisarState extends State<Pesquisar>
+ {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+   {
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
+            
+//-------------------------------------------------------------------------------------------------------------- PESQUISA
+
             Padding(
               padding: const EdgeInsets.only(
                 left: 30,
@@ -21,7 +29,6 @@ class _pesquiState extends State<pesqui> {
               ),
               child: InputDecorator(
                 decoration: InputDecoration(
-                  icon: Icon(Icons.search),
                   border: InputBorder.none,
                 ),
                 child: TextField(
@@ -34,10 +41,14 @@ class _pesquiState extends State<pesqui> {
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     border: OutlineInputBorder(),
+                    icon: Icon(Icons.search),
                   ),
                 ),
               ),
             ),
+                        
+//--------------------------------------------------------------------------------------------------------------
+
           ],
         ),
       ),

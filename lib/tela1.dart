@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:front_end/cadastroemp.dart';
-import 'package:front_end/cadastropes.dart';
+import 'package:front_end/empsignup.dart';
+import 'package:front_end/signup.dart';
 
-class MyApp extends StatelessWidget {
+//--------------------------------------------------------------------------------------------------------------
+
+class MyApp extends StatelessWidget
+ {
+
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+   {
     return Scaffold(
       body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              
+//-------------------------------------------------------------------------------------------------------------- IMAGEM LOGO
+
               Container(
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -24,24 +32,33 @@ class MyApp extends StatelessWidget {
                     height: 120,
                     width: 120,
                   ),
-                ),
-              ),
+                ),  
+              ),    
+              
+//-------------------------------------------------------------------------------------------------------------- NOME DO APP
+
               Container(
                 child: Text(
-                  'Hora75',
+                  '55Horas',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
-              ),
+              ),  
+              
+//-------------------------------------------------------------------------------------------------------------- TEXTO DE BEM VINDO
+
               Container(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 190),
                   child: Text(
-                    'Welcome to Hora75',
+                    'Welcome to 55Horas',
                     style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
                   ),
-                ),
-              ),
+                ),  
+              ),    
+              
+//-------------------------------------------------------------------------------------------------------------- TEXTO EXPLICATIVO
+
               Container(
                 padding: EdgeInsets.only(
                   left: 70,
@@ -52,12 +69,15 @@ class MyApp extends StatelessWidget {
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                   textAlign: TextAlign.center,
                 ),
-              ),
+              ),  
+              
+//-------------------------------------------------------------------------------------------------------------- BOTÃO PESSOA 
+
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,  MaterialPageRoute(builder: (context) => cadpes(),));
+                    Navigator.push(context,  MaterialPageRoute(builder: (context) => Signup(),));
                     print('clicou');
                   },
                   child: Text('PESSOA'),
@@ -70,13 +90,16 @@ class MyApp extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
-              ),
+                ),  
+              ),    
+              
+//-------------------------------------------------------------------------------------------------------------- BOTÃO ESTABELECIMENTO
+
               Padding(
                 padding: const EdgeInsets.only(bottom: 50.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,  MaterialPageRoute(builder: (context) => cademp(),));
+                    Navigator.push(context,  MaterialPageRoute(builder: (context) => EmpSignUp(),));
                     print('clicou');
                   },
                   child: Text('ESTABELECIMENTO'),
@@ -89,12 +112,15 @@ class MyApp extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
-              )
+                ),  
+              )     
+              
+//--------------------------------------------------------------------------------------------------------------
+
             ],
           ),
-        ),
-      ),
-    );
+        ),  
+      ),    
+    );      
   }
 }

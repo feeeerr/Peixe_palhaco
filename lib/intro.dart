@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/perfil.dart';
 import 'package:front_end/pesquisa.dart';
-import 'package:front_end/princip.dart';
+import 'package:front_end/home.dart';
 
 class intro extends StatefulWidget {
   @override
@@ -12,9 +12,9 @@ class _introState extends State<intro> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    princip(),
-    pesqui(),
-    perfil()
+    Home(),
+    Pesquisar(),
+    Perfil()
   ];
 
   @override
