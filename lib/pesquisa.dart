@@ -16,6 +16,7 @@ class _PesquisarState extends State<Pesquisar>
   Widget build(BuildContext context)
    {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -48,7 +49,6 @@ class _PesquisarState extends State<Pesquisar>
             ),
                         
 //--------------------------------------------------------------------------------------------------------------
-
           ],
         ),
       ),

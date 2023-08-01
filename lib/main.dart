@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:front_end/controler.dart';
 import 'package:front_end/tela1.dart';
+import 'package:front_end/theme/dark_theme.dart';
+import 'package:front_end/theme/light_theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'info.dart';
 import 'hive-model.dart';
@@ -41,9 +42,6 @@ void main() async {
   
   if (info != null ) {
     if (!info.isLogged){runApp(MaterialApp(
-        theme: ThemeData(
-            fontFamily: 'telegraf',
-            ),
       debugShowCheckedModeBanner: false,
       home: MyApp(),
     ));
@@ -89,60 +87,3 @@ void main() async {
 //   }
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-class Pato extends StatelessWidget {
-  const Pato({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: AppControler.instance,
-      builder: (context, child) {
-        return MaterialApp(
-          title: 'Tela login',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            brightness: AppControler.instance.isDartTheme
-                ? Brightness.dark
-                : Brightness.light,
-          ),
-          home: MyApp(),
-        );
-      },
-    );
-  }
-}
-*/

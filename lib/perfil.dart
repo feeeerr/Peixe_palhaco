@@ -1,12 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:front_end/controler.dart';
-
-//     Switch(
-//   value: AppControler.instance.isDartTheme,
-//   onChanged: ((value) {
-//     AppControler.instance.changeTheme();
-//   }),
-// ),
 
 Widget Horarios() {
   return Padding(
