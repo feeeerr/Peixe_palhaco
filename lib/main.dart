@@ -49,7 +49,7 @@ void main() async {
     else {
     runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: intro(),
+      home: Intro(),
     ));
   }
   } 

@@ -11,24 +11,20 @@ import 'hive-service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
 Future<void> sendLocation() async {
   var url = Uri.parse('http://192.168.0.181:9031/nearby');
   WidgetsFlutterBinding.ensureInitialized();
-      final hiveService = await HiveService.getInstance();
-      final infoBox = hiveService?.infoBox;
-      final info = infoBox?.getAt(0) as Info?;
-      double? x = null;
-      double? y = null;
-      if (info != null ) {
-        x = info.cord_x;
-        y = info.cord_y;
-      }
+  final hiveService = await HiveService.getInstance();
+  final infoBox = hiveService?.infoBox;
+  final info = infoBox?.getAt(0) as Info?;
+  double? x = null;
+  double? y = null;
+  if (info != null) {
+    x = info.cord_x;
+    y = info.cord_y;
+  }
   // Define the request body
-  var body = {
-    'cord_x': x,
-    'cord_y': y
-  };
+  var body = {'cord_x': x, 'cord_y': y};
 
   var jsonBody = jsonEncode(body);
 
@@ -45,7 +41,6 @@ Future<void> sendLocation() async {
     print('Response body: ${response.body}');
   }
 }
-
 
 Future<List<double>> getCurrentLocation() async {
   Position position = await Geolocator.getCurrentPosition(
@@ -74,20 +69,6 @@ void setFirstTime() async {
   sendLocation();
 }
 
-Widget peixe(child) {
-  return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 5),
-      child: Container(
-        width: 70,
-        height: 20,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadiusDirectional.all(Radius.circular(70)),
-        ),
-        child: Center(child: child,),
-      ));
-}
-
 class Home extends StatefulWidget {
   const Home({Key? key});
 
@@ -97,32 +78,28 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   @override
-  void initState()  {
+  void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       WidgetsFlutterBinding.ensureInitialized();
       final hiveService = await HiveService.getInstance();
       final infoBox = hiveService?.infoBox;
       final info = infoBox?.getAt(0) as Info?;
-      
-      if (info != null ) {
+
+      if (info != null) {
         if (info.firstTime) {
-          _showPopupDialog(); 
+          _showPopupDialog();
         }
       }
-      
-     
     });
   }
 
   void _requestLocationPermission() async {
-      final status = await Permission.location.request();
-      if (status.isGranted) {
-        getCurrentLocation(); // Permission granted, show the dialog
-      }
-      
-
+    final status = await Permission.location.request();
+    if (status.isGranted) {
+      getCurrentLocation(); // Permission granted, show the dialog
     }
+  }
 
   void _showPopupDialog() {
     AwesomeDialog(
@@ -130,162 +107,238 @@ class _HomeState extends State<Home> {
       dialogType: DialogType.NO_HEADER,
       animType: AnimType.SCALE,
       title: 'Localização',
-      desc: 'Forneça sua localização atual \npara que a 55 possa te mostrar estabelecimentos próximos',
+      desc:
+          'Forneça sua localização atual \npara que a 55 possa te mostrar estabelecimentos próximos',
       btnCancelOnPress: () {},
-      btnOkOnPress: () {_requestLocationPermission(); setFirstTime();},
+      btnOkOnPress: () {
+        _requestLocationPermission();
+        setFirstTime();
+      },
     ).show();
+  }
+
+  bool _isAppBarVisible = true;
+
+  void _toggleAppBarVisibility() {
+    setState(() {
+      _isAppBarVisible = !_isAppBarVisible;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 20),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  peixe(Text('1', style: TextStyle(color: Colors.white))),
-                  peixe(Text('2', style: TextStyle(color: Colors.white))),
-                  peixe(Text('3', style: TextStyle(color: Colors.white))),
-                  peixe(Text('4', style: TextStyle(color: Colors.white))),
-                  peixe(Text('5', style: TextStyle(color: Colors.white))),
-                  peixe(Text('6', style: TextStyle(color: Colors.white))),
-                  peixe(Text('7', style: TextStyle(color: Colors.white))),
-                  
-                ],
-              ),
-            ),
+    var appBar = AppBar(
+      // shape: ContinuousRectangleBorder(
+      //   borderRadius: BorderRadius.vertical(
+      //     bottom: Radius.circular(30),
+      //   ),
+      // ),
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          color: Color(0xFF1C2120),
+          borderRadius: _isAppBarVisible
+              ? BorderRadiusDirectional.only(bottomStart: Radius.circular(12))
+              : BorderRadius.vertical(bottom: Radius.circular(12)),
+        ),
+      ),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Lugares próximos',
+            style: TextStyle(color: Colors.white),
           ),
-          Expanded(
-            flex: 5,
-            child: NotificationListener<OverscrollIndicatorNotification>(
-              onNotification: (notification) {
-                notification.disallowGlow(); // Disables scroll glow effect
-                return true;
-              },
-              child: ListView.builder(
-                itemCount: 50,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {},
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 20, top: 10, bottom: 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 0.5,
+          ElevatedButton(
+            onPressed: _toggleAppBarVisibility,
+            child: Icon(
+              Icons.menu_rounded,
+              color: Colors.white,
+            ),
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                elevation: MaterialStateProperty.all(0)),
+          )
+        ],
+      ),
+      backgroundColor: Colors.black.withOpacity(0),
+      elevation: 0,
+    );
+
+    var size = MediaQuery.of(context).size;
+    var sizeh = size.height - appBar.preferredSize.height;
+
+    return Scaffold(
+      appBar: appBar,
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            height: sizeh * .945,
+            decoration: BoxDecoration(
+              color: Color(0xFF1C2120),
+              borderRadius: _isAppBarVisible
+                  ? BorderRadiusDirectional.only(topStart: Radius.circular(12))
+                  : BorderRadius.vertical(top: Radius.circular(12)),
+            ),
+            child: CustomScrollView(
+              slivers: [
+                if (_isAppBarVisible)
+                  SliverAppBar(
+                    elevation: 0,
+                    backgroundColor: Colors.transparent,
+                    toolbarHeight: 30,
+                    floating: true,
+                    pinned: false,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: Container(
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 50,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 5, top: 5, bottom: 5),
+                              child: Container(
+                                width: 70,
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius:
+                                      BorderRadiusDirectional.circular(70),
+                                ),
+                                child: Center(
+                                  child: Text('$index',
+                                      style: TextStyle(color: Colors.white)),
+                                ),
                               ),
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Stack(children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10,
-                                        right: 20,
-                                        top: 10,
-                                        bottom: 10),
-                                    child: Container(
-                                      child: SvgPicture.asset(
-                                        'assets/images/iconeBarbearia.svg',
-                                        height: 100,
-                                        width: 90,
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 10),
-                                            child: Container(
-                                              child: Text('Shell Sofa'),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10, bottom: 10),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Container(
-                                                  child: Text('Tipo'),
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      '326Km',
-                                                      style: TextStyle(
-                                                          fontSize: 12),
-                                                    ),
-                                                    Icon(
-                                                      Icons.call_made,
-                                                      size: 12,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10, bottom: 10),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons
-                                                          .check_circle_outline_rounded,
-                                                      size: 15,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 5),
-                                                      child: Text('Aberto'),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ]),
+                            );
+                          },
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      List<Color> colors = [
+                        Colors.red,
+                        Colors.green,
+                        Colors.blue,
+                        Colors.orange,
+                        Colors.purple,
+                      ];
+
+                      Color color = colors[index % colors.length];
+
+                      return ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Colors.black.withOpacity(0)),
+                            elevation: MaterialStateProperty.all(0)),
+                        onPressed: () {},
+                        child: Container(
+                          height: sizeh * .15,
+                          width: size.width,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 12,
+                                bottom: 12,
+                                left: 10,
+                                child: Container(
+                                  height: sizeh * .1,
+                                  width: size.width * .24,
+                                  decoration: BoxDecoration(
+                                    color: color,
+                                    borderRadius:
+                                        BorderRadiusDirectional.circular(100),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                top: 30,
+                                left: 120,
+                                child: Container(
+                                  child: Text('Barbearia sla'),
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 55,
+                                left: 120,
+                                child: Container(
+                                  child: Text('Barbearia'),
+                                ),
+                              ),
+                              Positioned(
+                                right: 40,
+                                bottom: 55,
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      WidgetSpan(
+                                        child: Icon(
+                                          Icons.star_rate_rounded,
+                                          color: Colors.yellow,
+                                          size: 18,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                          text: '4.5',
+                                          style: TextStyle(fontSize: 13)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 120,
+                                bottom: 30,
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      WidgetSpan(
+                                        child: Icon(
+                                          Icons.check_circle_outline_rounded,
+                                          size: 15,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                          text: 'Aberto',
+                                          style: TextStyle(fontSize: 13)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                right: 15,
+                                bottom: 30,
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                          text: '360Km',
+                                          style: TextStyle(fontSize: 13)),
+                                      WidgetSpan(
+                                        child: Icon(
+                                          Icons.call_made,
+                                          size: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    childCount: 50,
+                  ),
+                ),
+              ],
             ),
           ),
-        ]),
+        ),
       ),
     );
   }

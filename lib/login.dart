@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:front_end/Recuprerars.dart';
 import 'package:front_end/signup.dart';
 import 'package:front_end/intro.dart';
 
@@ -37,7 +38,7 @@ class _loginpesState extends State<loginpes> {
       print('Senha: $senha');
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => intro()),
+        MaterialPageRoute(builder: (context) => Intro()),
       );
     }
   }
@@ -156,7 +157,10 @@ class _loginpesState extends State<loginpes> {
                   ),
                   TextButton(
                     onPressed: () {
-                      print('ooooooo');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => RecuperarS()),
+                      );
                     },
                     child: Text(
                       'Forgot Password?',

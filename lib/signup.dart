@@ -101,7 +101,7 @@ class _SignupState extends State<Signup> // ENGLOBA TUDO
       sendSign(email, nome, senha);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => intro()),
+        MaterialPageRoute(builder: (context) => Intro()),
       );
     }
   }

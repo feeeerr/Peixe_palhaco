@@ -21,7 +21,8 @@ Widget Horarios() {
                   fontSize: 19,
                 ),
               ),
-              Column(crossAxisAlignment: CrossAxisAlignment.start,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'sexta-feira 27/07',
@@ -54,7 +55,9 @@ Widget Horarios() {
 
 Widget tilapia(child1, child2) {
   return GestureDetector(
-      onTap: () { print('foiiii');},
+      onTap: () {
+        print('foiiii');
+      },
       child: Center(
           child: Padding(
               padding: const EdgeInsets.only(left: 10, right: 20),
@@ -100,65 +103,77 @@ class Perfil extends StatefulWidget {
 class _PerfilState extends State<Perfil> {
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
         body: SafeArea(
-            child: Column(
-      children: [
-        Container(
-          width: 300,
-          height: 125,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Icon(Icons.account_circle, size: 75),
-              Text(
-                'Nome do cliente',
-                style: TextStyle(fontSize: 22),
+      child: CustomScrollView(
+        slivers: <Widget>[
+          SliverToBoxAdapter(
+            child: SizedBox(
+              width: 300,
+              height: 125,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Icon(Icons.account_circle, size: 75),
+                  Text(
+                    'Nome do cliente',
+                    style: TextStyle(fontSize: 22),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-        tilapia(
-          Text(
-            'Meus dados',
-            style: Estilo,
-            softWrap: false,
+          SliverToBoxAdapter(
+            child: tilapia(
+              Text(
+                'Meus dados',
+                style: Estilo,
+                softWrap: false,
+              ),
+              Text(
+                'E-mail, senha, Nome de Usuário, localização... ',
+                style: TextStyle(fontSize: 12),
+                softWrap: false,
+              ),
+            ),
           ),
-          Text(
-            'E-mail, senha, Nome de Usuário, localização... ',
-            style: TextStyle(fontSize: 12),
-            softWrap: false,
+          SliverToBoxAdapter(
+            child: tilapia(
+              Text(
+                'Sair',
+                style: Estilo,
+                softWrap: false,
+              ),
+              Text(
+                'Fazer logout',
+                style: TextStyle(fontSize: 12),
+                softWrap: false,
+              ),
+            ),
           ),
-        ),
-        tilapia(
-          Text(
-            'Sair',
-            style: Estilo,
-            softWrap: false,
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 30, bottom: 20),
+              child: Center(
+                child: Text(
+                  'Horarios marcados',
+                  style: Estilo,
+                  softWrap: false,
+                ),
+              ),
+            ),
           ),
-          Text(
-            'Fazer logout',
-            style: TextStyle(fontSize: 12),
-            softWrap: false,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 30, bottom: 20),
-          child: Text(
-            'Horarios marcados',
-            style: Estilo,
-            softWrap: false,
-          ),
-        ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return Horarios();
-            },
-          ),
-        )
-      ],
-    )));
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return Horarios();
+              },
+              childCount: 50,
+            ),
+          )
+        ],
+      ),
+    ));
   }
 }
