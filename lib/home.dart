@@ -117,227 +117,281 @@ class _HomeState extends State<Home> {
     ).show();
   }
 
-  bool _isAppBarVisible = true;
-
-  void _toggleAppBarVisibility() {
-    setState(() {
-      _isAppBarVisible = !_isAppBarVisible;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    var appBar = AppBar(
-      // shape: ContinuousRectangleBorder(
-      //   borderRadius: BorderRadius.vertical(
-      //     bottom: Radius.circular(30),
-      //   ),
-      // ),
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          color: Color(0xFF1C2120),
-          borderRadius: _isAppBarVisible
-              ? BorderRadiusDirectional.only(bottomStart: Radius.circular(12))
-              : BorderRadius.vertical(bottom: Radius.circular(12)),
-        ),
-      ),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Lugares próximos',
-            style: TextStyle(color: Colors.white),
-          ),
-          ElevatedButton(
-            onPressed: _toggleAppBarVisibility,
-            child: Icon(
-              Icons.menu_rounded,
-              color: Colors.white,
-            ),
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                elevation: MaterialStateProperty.all(0)),
-          )
-        ],
-      ),
-      backgroundColor: Colors.black.withOpacity(0),
-      elevation: 0,
-    );
+    var sizeh = MediaQuery.of(context).size.height;
+    var sizew = MediaQuery.of(context).size.width;
 
-    var size = MediaQuery.of(context).size;
-    var sizeh = size.height - appBar.preferredSize.height;
+    List<Color> colors = [
+      Colors.red,
+      Colors.green,
+      Colors.blue,
+      Colors.orange,
+      Colors.purple,
+    ];
+
+    List<Text> titulos = [
+      Text(
+        'Barbearia do seu zé',
+        style: TextStyle(
+            color: Colors.white,
+            fontSize: sizeh * .02,
+            fontWeight: FontWeight.w400),
+      ),
+      Text(
+        'Botique la vi',
+        style: TextStyle(
+            color: Colors.white,
+            fontSize: sizeh * .02,
+            fontWeight: FontWeight.w400),
+      ),
+      Text(
+        'Café dos Sonhos',
+        style: TextStyle(
+            color: Colors.white,
+            fontSize: sizeh * .02,
+            fontWeight: FontWeight.w400),
+      ),
+      Text(
+        'Livraria Encantada',
+        style: TextStyle(
+            color: Colors.white,
+            fontSize: sizeh * .02,
+            fontWeight: FontWeight.w400),
+      ),
+      Text(
+        'Academia Energia Vital',
+        style: TextStyle(
+            color: Colors.white,
+            fontSize: sizeh * .02,
+            fontWeight: FontWeight.w400),
+      ),
+    ];
 
     return Scaffold(
-      appBar: appBar,
-      backgroundColor: Colors.black,
+      backgroundColor: Color.fromARGB(255, 22, 22, 22),
       body: SafeArea(
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            height: sizeh * .945,
-            decoration: BoxDecoration(
-              color: Color(0xFF1C2120),
-              borderRadius: _isAppBarVisible
-                  ? BorderRadiusDirectional.only(topStart: Radius.circular(12))
-                  : BorderRadius.vertical(top: Radius.circular(12)),
-            ),
-            child: CustomScrollView(
-              slivers: [
-                if (_isAppBarVisible)
-                  SliverAppBar(
-                    elevation: 0,
-                    backgroundColor: Colors.transparent,
-                    toolbarHeight: 30,
-                    floating: true,
-                    pinned: false,
-                    flexibleSpace: FlexibleSpaceBar(
-                      background: Container(
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 50,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 10, right: 5, top: 5, bottom: 5),
-                              child: Container(
-                                width: 70,
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius:
-                                      BorderRadiusDirectional.circular(70),
+        child: Stack(
+          children: [
+            Positioned(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: sizeh * .8,
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            int adjustedIndex = index % titulos.length;
+                            Color color = colors[adjustedIndex];
+                            Text title = titulos[adjustedIndex];
+
+                            return ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                  Colors.black.withOpacity(0),
                                 ),
-                                child: Center(
-                                  child: Text('$index',
-                                      style: TextStyle(color: Colors.white)),
+                                elevation: MaterialStateProperty.all(0),
+                              ),
+                              onPressed: () {},
+                              child: Container(
+                                height: sizeh * .12,
+                                width: sizew,
+                                child: Stack(
+                                  children: [
+                                    Positioned(
+                                      left: sizew * .02,
+                                      top: sizeh * .015,
+                                      bottom: sizeh * .015,
+                                      child: Container(
+                                        height: sizeh * .1,
+                                        width: sizew * .2,
+                                        decoration: BoxDecoration(
+                                          color: color,
+                                          borderRadius:
+                                              BorderRadiusDirectional.circular(
+                                                  100),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: sizeh * .015,
+                                      left: sizew * .3,
+                                      child: Container(
+                                        child: title,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: sizeh * .05,
+                                      left: sizew * .3,
+                                      child: Container(
+                                        child: Text(
+                                          'Barbearia',
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: sizeh * .015,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: sizew * .15,
+                                      top: sizeh * .05,
+                                      child: Icon(
+                                        Icons.star_rate_rounded,
+                                        color: Colors.yellow,
+                                        size: sizeh * .015,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: sizew * .11,
+                                      top: sizeh * .05,
+                                      child: Text(
+                                        '4.5',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: sizeh * .015,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: sizew * .3,
+                                      bottom: sizeh * .03,
+                                      child: Icon(
+                                        Icons.check_circle_outline_rounded,
+                                        size: sizeh * .015,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: sizew * .34,
+                                      bottom: sizeh * .03,
+                                      child: Text(
+                                        'Aberto',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: sizeh * .015,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: sizew * .085,
+                                      bottom: sizeh * .03,
+                                      child: Text(
+                                        '360Km',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: sizeh * .015,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: sizew * .055,
+                                      bottom: sizeh * .03,
+                                      child: Icon(
+                                        Icons.call_made,
+                                        size: sizeh * .015,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             );
                           },
+                          childCount: 30,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              child: Container(
+                width: sizew,
+                height: sizeh * .15,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 22, 22, 22),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.5),
+                      offset: Offset(0, 4), // Deslocamento vertical para baixo
+                      blurRadius: 2, // Valor do desfoque da sombra
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: sizeh * .03,
+                      left: sizew * .03,
+                      child: Text(
+                        'Lugares próximos',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: sizeh * .03,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                  ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      List<Color> colors = [
-                        Colors.red,
-                        Colors.green,
-                        Colors.blue,
-                        Colors.orange,
-                        Colors.purple,
-                      ];
-
-                      Color color = colors[index % colors.length];
-
-                      return ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                Colors.black.withOpacity(0)),
-                            elevation: MaterialStateProperty.all(0)),
-                        onPressed: () {},
-                        child: Container(
-                          height: sizeh * .15,
-                          width: size.width,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 12,
-                                bottom: 12,
-                                left: 10,
-                                child: Container(
-                                  height: sizeh * .1,
-                                  width: size.width * .24,
-                                  decoration: BoxDecoration(
-                                    color: color,
-                                    borderRadius:
-                                        BorderRadiusDirectional.circular(100),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: 30,
-                                left: 120,
-                                child: Container(
-                                  child: Text('Barbearia sla'),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 55,
-                                left: 120,
-                                child: Container(
-                                  child: Text('Barbearia'),
-                                ),
-                              ),
-                              Positioned(
-                                right: 40,
-                                bottom: 55,
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      WidgetSpan(
-                                        child: Icon(
-                                          Icons.star_rate_rounded,
-                                          color: Colors.yellow,
-                                          size: 18,
+                    Positioned(
+                      bottom: sizeh * .01,
+                      child: Container(
+                        height: sizeh * .03,
+                        width: sizew,
+                        child: CustomScrollView(
+                          scrollDirection: Axis.horizontal,
+                          slivers: [
+                            SliverToBoxAdapter(
+                              // Adicione este SliverToBoxAdapter
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: sizew * .025),
+                                child: Row(
+                                  children: List.generate(30, (index) {
+                                    return Padding(
+                                      padding: EdgeInsets.only(
+                                        right: sizew * .025,
+                                      ),
+                                      child: Container(
+                                        width: sizew * .2,
+                                        height: sizeh * .03,
+                                        decoration: BoxDecoration(
+                                          color: Colors.black,
+                                          borderRadius:
+                                              BorderRadiusDirectional.circular(
+                                                  70),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            '$index',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: sizeh * .02,
+                                                fontWeight: FontWeight.w400),
+                                          ),
                                         ),
                                       ),
-                                      TextSpan(
-                                          text: '4.5',
-                                          style: TextStyle(fontSize: 13)),
-                                    ],
-                                  ),
+                                    );
+                                  }),
                                 ),
                               ),
-                              Positioned(
-                                left: 120,
-                                bottom: 30,
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      WidgetSpan(
-                                        child: Icon(
-                                          Icons.check_circle_outline_rounded,
-                                          size: 15,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                          text: 'Aberto',
-                                          style: TextStyle(fontSize: 13)),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                right: 15,
-                                bottom: 30,
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                          text: '360Km',
-                                          style: TextStyle(fontSize: 13)),
-                                      WidgetSpan(
-                                        child: Icon(
-                                          Icons.call_made,
-                                          size: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                    childCount: 50,
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

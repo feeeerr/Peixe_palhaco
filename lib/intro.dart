@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:front_end/perfil.dart';
 import 'package:front_end/pesquisa.dart';
 import 'package:front_end/home.dart';
@@ -25,9 +26,12 @@ class _IntroState extends State<Intro> {
               height: kBottomNavigationBarHeight,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.transparent,Colors.black],
+                  colors: [
+                    Colors.transparent,
+                    Colors.black,
+                  ],
                   begin: Alignment.topCenter,
-                  end: Alignment(0, 0.5),
+                  end: Alignment(0, 2),
                 ),
               ),
               child: BottomNavigationBar(
@@ -37,28 +41,39 @@ class _IntroState extends State<Intro> {
                     _currentIndex = index;
                   });
                 },
-                items: const <BottomNavigationBarItem>[
+                items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.home,
+                    icon: SvgPicture.asset(
+                      'assets/images/house.svg',
+                      width: 24,
+                      height: 24,
+                      color: Colors.white,
                     ),
+                    activeIcon: Icon(Icons.home_filled),
                     label: 'Home',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.search,
+                    icon: SvgPicture.asset(
+                      'assets/images/lupa.svg',
+                      width: 24,
+                      height: 24,
+                    ),
+                    activeIcon: SvgPicture.asset(
+                      'assets/images/lupaCheia.svg',
+                      width: 24,
+                      height: 24,
+                      color: Colors.white,
                     ),
                     label: 'Search',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.person,
-                    ),
+                    icon: Icon(Icons.person_outline),
+                    activeIcon: Icon(Icons.person),
                     label: 'Profile',
                   ),
                 ],
                 selectedItemColor: Colors.white,
-                unselectedItemColor: Colors.white,
+                unselectedItemColor: Colors.grey[400],
                 backgroundColor: Colors.transparent,
                 type: BottomNavigationBarType.fixed,
                 elevation: 0,
@@ -66,7 +81,7 @@ class _IntroState extends State<Intro> {
                 unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
               ),
             ),
-          ),
+          )
         ],
       ),
     );

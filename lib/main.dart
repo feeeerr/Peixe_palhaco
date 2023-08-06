@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/tela1.dart';
-import 'package:front_end/theme/dark_theme.dart';
-import 'package:front_end/theme/light_theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'info.dart';
 import 'hive-model.dart';
