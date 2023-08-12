@@ -1,87 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:front_end/tela1.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'info.dart';
-import 'hive-model.dart';
-import 'intro.dart';
-import 'hive-service.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-Future<Info> createInitialUser() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final hiveService = await HiveService.getInstance();
+// screens
+import 'screens/user/intro.dart';
+import 'screens/user/start.dart';
 
-  final infoBox = hiveService?.infoBox;
-  if (infoBox != null) {
-    final info = Info();
-    info.email = '';
-    info.name = '';
-    info.password = '';
-    info.cord_x = null;
-    info.cord_y = null;
-    info.isLogged = false;
-    info.firstTime = true;
-    infoBox.add(info); // Add an item to the infoBox
+bool _isLogged = false;
 
-    return info;
-  }
-  // Return a default Info object if infoBox is not available
-  return Info();
+// Function to load the stored value from SharedPreferences
+Future<void> _isLoggedStatus() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  _isLogged = prefs.getBool('is_logged') ?? false;
 }
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final hiveService = await HiveService.getInstance();
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Ensure Flutter is initialized first.
 
-  final infoBox = hiveService?.infoBox;
-  if (infoBox == null || infoBox.isEmpty) {
-    await createInitialUser();
-  }
-  final info = infoBox?.getAt(0) as Info?;
-  
-  if (info != null ) {
-    if (!info.isLogged){runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MyApp(),
-    ));
+  // Load the notification status before running the app
+  await _isLoggedStatus();
+
+  runApp(_isLogged
+      ? MaterialApp(
+          theme: ThemeData(
+            fontFamily: 'Telegraf',
+          ),
+          debugShowCheckedModeBanner: false,
+          home: Intro())
+      : MaterialApp(
+          theme: ThemeData(
+            fontFamily: 'Telegraf',
+          ),
+          routes: {
+            '/home': (context) => Intro(),
+            // Add more named routes as needed
+          },
+          debugShowCheckedModeBanner: false,
+          home: Start()));
 }
-    else {
-    runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Intro(),
-    ));
-  }
-  } 
-}
-
-
-
-
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//         appBar: AppBar(
-//           title: Text('Hive Example'),
-//         ),
-//         body: Center(
-//           child: ElevatedButton(
-//             onPressed: () {
-//               final infoBox = HiveBoxes.infosBox;
-//               final info = Info()
-//                 ..name = 'John Doe'
-//                 ..age = 30;
-//               infoBox.add(info); // Add a person to the box
-
-//               final savedInfo = infoBox.getAt(0); // Retrieve a person from the box
-//               print(savedInfo?.name); // Output: John Doe
-//             },
-//             child: Text('Add Person'),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-

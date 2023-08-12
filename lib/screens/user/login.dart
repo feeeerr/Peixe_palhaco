@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:front_end/Recuprerars.dart';
-import 'package:front_end/signup.dart';
-import 'package:front_end/intro.dart';
+import 'package:l/screens/user/Recuprerars.dart';
+import 'signup.dart';
+import 'intro.dart';
 
-class loginpes extends StatefulWidget {
-  const loginpes({Key? key});
+class Login extends StatefulWidget {
+  const Login({Key? key});
 
   @override
-  State<loginpes> createState() => _loginpesState();
+  State<Login> createState() => _LoginState();
 }
 
-class _loginpesState extends State<loginpes> {
+class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final GlobalKey<FormFieldState<String>> emailKey =

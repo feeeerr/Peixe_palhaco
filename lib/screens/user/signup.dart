@@ -1,46 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:front_end/intro.dart';
-import 'package:front_end/login.dart';
-import 'package:front_end/home.dart';
+import 'login.dart';
+import 'intro.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'info.dart';
-import 'hive-service.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'info.dart';
-import 'hive-model.dart';
-import 'hive-service.dart';
+//--------------------------------------------------------------------------------------------------------------
+
+
 
 //--------------------------------------------------------------------------------------------------------------
 
-void setLogged(nome, email, senha) async {
-  final hiveService = await HiveService.getInstance();
-  final infoBox = hiveService?.infoBox;
-  if (infoBox != null) {
-    final info = infoBox.getAt(0) as Info?;
-    if (info != null) {
-      info.isLogged = true;
-      info.name = nome;
-      info.email = email;
-      info.password = senha;
-      infoBox.put(0, info); // Save the updated user object back to the Hive box
-    }
-  }
-}
-
-//--------------------------------------------------------------------------------------------------------------
-
-Future<void> sendSign(em, us, pa) async {
-  var url = Uri.parse('http://192.168.0.181:9031/signup');
+Future<bool> sendSign(em, us, pa) async {
+  var url = Uri.parse('http://192.168.15.73:9031/signup');
 
   // Define the request body
   var body = {
+    'Name': us,
     'Email': em,
-    'Username': us,
     'Password': pa,
   };
 
@@ -53,10 +29,12 @@ Future<void> sendSign(em, us, pa) async {
     // Request successful
     print('POST request successful');
     print('Response body: ${response.body}');
+    return true;
   } else {
     // Request failed
     print('POST request failed with status code ${response.statusCode}');
     print('Response body: ${response.body}');
+    return false;
   }
 }
 
@@ -68,6 +46,8 @@ class Signup extends StatefulWidget {
   @override
   State<Signup> createState() => _SignupState();
 }
+
+
 
 //--------------------------------------------------------------------------------------------------------------
 
@@ -86,23 +66,47 @@ class _SignupState extends State<Signup> // ENGLOBA TUDO
   TextEditingController emailController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
 
+  List<String> emails = [];
+
+  Future<void> fetchEmails() async {
+      final url = Uri.parse('http://192.168.15.73:9031/getemails'); // Replace with your server IP and port
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          emails = List<String>.from(data['emails']);
+        });
+        print(emails);
+      } else {
+        print('Failed to fetch emails: ${response.statusCode}');
+      }
+    }
+
+
+  @override
+  void initState() {
+    super.initState();
+    fetchEmails();
+  }
+
+
+
 //--------------------------------------------------------------------------------------------------------------
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       String nome = nomeKey.currentState!.value!;
       String email = emailKey.currentState!.value!;
       String senha = senhaKey.currentState!.value!;
+      
+      bool sendSuccessful = await sendSign(email, nome, senha);
 
-      setLogged(nome, email, senha);
+      // setLogged(nome, email, senha);
       print('Nome: $nome');
       print('Email: $email');
       print('Senha: $senha');
-      sendSign(email, nome, senha);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Intro()),
-      );
+      if (sendSuccessful) {Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);}
     }
   }
 
@@ -248,6 +252,8 @@ class _SignupState extends State<Signup> // ENGLOBA TUDO
                                     r'^.+@(yahoo\.com\.br|yahoo\.com|gmail\.com)$');
                                 if (!emailRegex.hasMatch(value)) {
                                   return 'Insira um email válido que termine com @gmail.com, @yahoo.com ou @yahoo.com.br.';
+                                } else if (emails.contains(value)) {
+                                  return 'já existe uma conta com esse email';
                                 }
                                 return null;
                               },
@@ -330,7 +336,7 @@ class _SignupState extends State<Signup> // ENGLOBA TUDO
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => loginpes()),
+                                  builder: (context) => Login()),
                             );
                           },
                           child: Text(

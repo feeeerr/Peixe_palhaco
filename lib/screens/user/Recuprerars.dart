@@ -1,5 +1,5 @@
-import 'package:front_end/tela1.dart';
 import 'package:flutter/material.dart';
+import 'package:l/screens/user/start.dart';
 
 
 class RecuperarS extends StatefulWidget {
@@ -26,7 +26,7 @@ class _RecuperarSState extends State<RecuperarS> {
         print('Email: $email');
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => (MyApp())),
+          MaterialPageRoute(builder: (context) => (Start())),
         );
       }
     }

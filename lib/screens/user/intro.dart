@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:front_end/perfil.dart';
-import 'package:front_end/pesquisa.dart';
-import 'package:front_end/home.dart';
+import 'perfil.dart';
+import 'pesquisa.dart';
+import 'home.dart';
 
 class Intro extends StatefulWidget {
   @override
@@ -12,7 +12,7 @@ class Intro extends StatefulWidget {
 class _IntroState extends State<Intro> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [Home(), Pesquisar(), Perfil()];
+  final List<Widget> _screens = [Home(), Pesquisar(), Agenda()];
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class _IntroState extends State<Intro> {
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.person_outline),
-                    activeIcon: Icon(Icons.person),
+                    activeIcon: Icon(Icons.person,),
                     label: 'Profile',
                   ),
                 ],
