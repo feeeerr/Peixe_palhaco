@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'perfil.dart';
+import 'package:l/screens/user/agenda.dart';
 import 'pesquisa.dart';
 import 'home.dart';
 

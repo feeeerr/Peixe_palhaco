@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:l/screens/user/especificacaoempresa.dart';
+import 'package:l/screens/user/perfil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -125,34 +126,36 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     var sizeh = MediaQuery.of(context).size.height;
     var sizew = MediaQuery.of(context).size.width;
 
-  void _showCustomContent(BuildContext context, Widget content) {
-    showDialog(
-      context: context,
-      barrierColor: Colors.transparent,
-      builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 2), () {
-          Navigator.of(context).pop();
-        });
+    void _showCustomContent(BuildContext context, Widget content) {
+      showDialog(
+        context: context,
+        barrierColor: Colors.transparent,
+        builder: (BuildContext context) {
+          Future.delayed(Duration(seconds: 2), () {
+            Navigator.of(context).pop();
+          });
 
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5), // Define o raio do canto
-          ),
-          alignment: Alignment.bottomCenter,
-          content: Container(
-            height: sizeh * .02,
-            width: sizew,
-            alignment: Alignment.centerLeft,
-            child: content,
-          ),
-          backgroundColor: Colors.white,
-        );
-      },
-    );
-  }
-
-
-
+          return AlertDialog(
+            insetPadding: EdgeInsets.only(bottom: sizeh * .06),
+            contentPadding: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5), // Define o raio do canto
+            ),
+            alignment: Alignment.bottomCenter,
+            content: Container(
+              height: sizeh * .06,
+              width: sizew * .95,
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: sizew * .03),
+                child: content,
+              ),
+            ),
+            backgroundColor: Colors.white,
+          );
+        },
+      );
+    }
 
     List<Text> titulos = [
       Text(
@@ -192,36 +195,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       ),
     ];
 
-    // Widget empresa() {
-    //   return Container(
-    //     height: sizeh * .7,
-    //     width: sizew * .9,
-    //     decoration: BoxDecoration(
-    //         color: Color(0xFF161616),
-    //         boxShadow: [
-    //           BoxShadow(color: Colors.black, blurRadius: 1000),
-    //         ],
-    //         borderRadius: BorderRadius.circular(20)),
-    //     child: Stack(
-    //       children: [
-    //         Positioned(
-    //           bottom: sizeh * .01,
-    //           left: sizew * .35,
-    //           child: Container(
-    //             width: sizew * .3,
-    //             child: ElevatedButton(
-    //               onPressed: () {},
-    //               child: Container(
-    //                 child: Text('botao'),
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   );
-    // }
-
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent, // Cor da barra de status transparente
       statusBarIconBrightness:
@@ -233,10 +206,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       drawer: Drawer(
         backgroundColor: Color.fromARGB(255, 22, 22, 22),
         shadowColor: Colors.white.withOpacity(.5),
-        child: Stack(
+        child: Column(
           children: [
-            Positioned(
-              top: sizeh * .065,
+            Padding(
+              padding: EdgeInsets.only(
+                top: sizeh * .065,
+              ),
               child: Container(
                 height: sizeh * .175,
                 width: sizew * .765,
@@ -247,7 +222,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     ),
                     elevation: MaterialStateProperty.all(0),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return Perfil();
+                        },
+                      ),
+                    );
+                  },
                   child: Container(
                       child: Stack(
                     children: [
@@ -301,67 +285,46 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 ),
               ),
             ),
-            Positioned(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: sizeh * .760,
-                  child: CustomScrollView(
-                    slivers: [
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            return ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                  Colors.black.withOpacity(0),
-                                ),
-                                elevation: MaterialStateProperty.all(0),
-                              ),
-                              onPressed: () {},
-                              child: Container(
-                                height: sizeh * .08,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      top: sizeh * .0255,
-                                      left: sizew * .005,
-                                      child: Icon(
-                                        Icons.settings,
-                                        size: sizeh * .03,
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: sizeh * .034,
-                                      left: sizew * .08,
-                                      child: Text(
-                                        'Configurações',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: sizeh * .02,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                          childCount: 8,
-                        ),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  Colors.black.withOpacity(0),
+                ),
+                elevation: MaterialStateProperty.all(0),
+              ),
+              onPressed: () {},
+              child: Container(
+                height: sizeh * .08,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: sizeh * .0255,
+                      left: sizew * .005,
+                      child: Icon(
+                        Icons.settings,
+                        size: sizeh * .03,
                       ),
-                    ],
-                  ),
+                    ),
+                    Positioned(
+                      top: sizeh * .034,
+                      left: sizew * .08,
+                      child: Text(
+                        'Configurações',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: sizeh * .02,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    )
+                  ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
       backgroundColor: Color.fromARGB(255, 22, 22, 22),
-      body:
-          //  GestureDetector(onTap: () {if (isCompanyVisible) {setState(() {isCompanyVisible = false;});}},child:
-          SafeArea(
+      body: SafeArea(
         child: Stack(
           children: [
             Positioned(
@@ -386,7 +349,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 elevation: MaterialStateProperty.all(0),
                               ),
                               onPressed: () {
-                                // if (selectedButtomStates[index]) {hide(index);} else {show(index);}selectedButtonIndex = index;setState(() {selectedButtomStates[index] =!selectedButtomStates[index];isCompanyVisible = true;});
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -674,19 +636,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 ),
               ),
             ),
-            // if (isCompanyVisible)
-            //   Center(
-            //     child: GestureDetector(
-            //       onTap: () {
-            //         // Nada a fazer aqui para evitar que o tap se propague para o GestureDetector pai
-            //       },
-            //       child: empresa(),
-            //     ),
-            //   ),
           ],
         ),
       ),
-      // ),
     );
   }
 }
